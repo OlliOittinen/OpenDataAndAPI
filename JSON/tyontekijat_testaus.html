@@ -22,8 +22,8 @@
         var i;
 
         for(i = 0; i < arr.length; i++) {
-            out += "<td><td>" + arr[i].firstName + "</td>" + "<td>"+ arr[i].lastName +
-                "</td>" + "<td>"+ arr[i].puhno + "</td>"+"<td>"+ arr[i].osoite + "</td></tr>";
+            out += "<td>" + arr[i].firstName + "</td>" + "<td>"+ arr[i].lastName +
+                "</td>" + "<td>"+ arr[i].puhno.matka + "</td>" + "<td>" + arr[i].puhno.koti + "</td>" +"<td>"+ arr[i].osoite + "</td></tr>";
         }
         out += "</table>"
         document.getElementById("duunarit").innerHTML = out;
