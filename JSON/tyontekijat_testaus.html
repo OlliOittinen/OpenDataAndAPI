@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <title>JSON-kokeiluja....</title>
 </head>
 <body>
@@ -9,24 +9,27 @@
 <script>
     var xmlhttp = new XMLHttpRequest();
     var url = "tyontekijat";
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
             var myArr = JSON.parse(xmlhttp.responseText);
             myFunction(myArr.tyontekijat);
         }
-    }
+    };
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
-    function myFunction(arr) {
-        var out = "<table border ='1'>";
-        var i;
 
-        for(i = 0; i < arr.length; i++) {
-            out += "<td><td>" + arr[i].firstName + "</td>" + "<td>"+ arr[i].lastName +
-                "</td>" + "<td>"+ arr[i].puhno + "</td>"+"<td>"+ arr[i].osoite + "</td></tr>";
+    function myFunction(arr) {
+        var htmlTable = "<table border ='1'>";
+        for (var i = 0; i < arr.length; i++) {
+            htmlTable +=
+                "<td>" + arr[i].firstName + "</td>"
+                + "<td>" + arr[i].lastName+ "</td>"
+                + "<td>" + arr[i].puhno.matka + "</td>"
+                + "<td>" + arr[i].puhno.tyo + "</td>"
+                + "<td>" + arr[i].osoite + "</td></tr>";
         }
-        out += "</table>"
-        document.getElementById("duunarit").innerHTML = out;
+        htmlTable += "</table>"
+        document.getElementById("duunarit").innerHTML = htmlTable;
     }
 </script>
 </body>
