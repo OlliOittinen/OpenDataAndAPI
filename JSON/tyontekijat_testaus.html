@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>JSON-kokeiluja....</title>
+</head>
+<body>
+<div id="duunarit"></div>
+<script>
+    var xmlhttp = new XMLHttpRequest();
+    var url = "tyontekijat.json";
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            var myArr = JSON.parse(xmlhttp.responseText);
+            myFunction(myArr.tyontekijat);
+        }
+    }
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+    function myFunction(arr) {
+        var out = "";
+        var i;
+        for(i = 0; i < arr.length; i++) {
+            out += arr[i].firstName + " " +
+                arr[i].lastName + '<br>';
+        }
+        document.getElementById("duunarit").innerHTML = out; // 6
+    }
+</script>
+</body>
+</html>
