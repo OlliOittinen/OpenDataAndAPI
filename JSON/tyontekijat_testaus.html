@@ -8,9 +8,9 @@
 <div id="duunarit"></div>
 <script>
     var xmlhttp = new XMLHttpRequest();
-    var url = "tyontekijat.json";
+    var url = "tyontekijat";
     xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
             var myArr = JSON.parse(xmlhttp.responseText);
             myFunction(myArr.tyontekijat);
         }
@@ -18,13 +18,14 @@
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
     function myFunction(arr) {
-        var out = "";
+        var out = "<table border ='1'>";
         var i;
+
         for(i = 0; i < arr.length; i++) {
-            out += arr[i].firstName + " " +
-                arr[i].lastName + '<br>';
+            out += "<tr><td>" + arr[i].firstName + "</td>" + "<td>"+ arr[i].lastName + "</td></tr>";
         }
-        document.getElementById("duunarit").innerHTML = out; // 6
+        out += "</table>"
+        document.getElementById("duunarit").innerHTML = out;
     }
 </script>
 </body>
