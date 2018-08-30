@@ -4,5 +4,3 @@
   {"firstName":"Matti", "lastName":"Näsä","puhno":{"matka":"0501223334", "tyo":null}, "osoite":"Duckburg 123"},
   {"firstName":"Raimo", "lastName":"Vormisto","puhno":{"matka":"0509494494", "tyo":"03123123123"}, "osoite":"Vaakkula 123"},
   {"firstName":"Timo", "lastName":"Silakka","puhno":{"matka":"0501234567", "tyo":"09456789321"}, "osoite":"Ankkalandia 123"}
-]
-}
