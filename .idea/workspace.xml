@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b11eead9-a52f-4551-a083-f149724ac042" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/JSON/tyontekijat_testaus.html" beforeDir="false" afterPath="$PROJECT_DIR$/JSON/tyontekijat_testaus.html" afterDir="false" />
+    <list default="true" id="b11eead9-a52f-4551-a083-f149724ac042" name="Default Changelist" comment="Changed to format JSON file as HTML table">
+      <change beforePath="$PROJECT_DIR$/JSON/tyontekijat" beforeDir="false" afterPath="$PROJECT_DIR$/JSON/tyontekijat" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -32,19 +32,22 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="html" value="396" />
+          <entry key="html" value="397" />
+          <entry key="txt" value="41" />
+          <entry key="tyontekijat" value="112" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="HTML" value="396" />
+          <entry key="HTML" value="397" />
+          <entry key="PLAIN_TEXT" value="153" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/JSON/tyontekijat">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="126">
@@ -53,11 +56,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/JSON/tyontekijat_testaus.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="630">
-              <caret line="30" column="5" selection-start-line="30" selection-start-column="5" selection-end-line="30" selection-end-column="5" />
+            <state relative-caret-position="441">
+              <caret line="21" column="14" lean-forward="true" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -79,6 +82,7 @@
       <list>
         <option value="$PROJECT_DIR$/JSON/esimerkki" />
         <option value="$PROJECT_DIR$/JSON/tyontekijat_testaus.html" />
+        <option value="$PROJECT_DIR$/JSON/tyontekijat" />
       </list>
     </option>
   </component>
@@ -156,12 +160,20 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1535622158982</updated>
-      <workItem from="1535622160862" duration="2288000" />
+      <workItem from="1535622160862" duration="3018000" />
     </task>
+    <task id="LOCAL-00001" summary="Changed to format JSON file as HTML table">
+      <created>1535624590915</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1535624590915</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2288000" />
+    <option name="totallyTimeSpent" value="3018000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
@@ -173,6 +185,7 @@
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Messages" weight="0.32954547" />
       <window_info anchor="bottom" id="Terminal" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -194,18 +207,22 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Changed to format JSON file as HTML table" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed to format JSON file as HTML table" />
+  </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/JSON/tyontekijat_testaus.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="441">
+          <caret line="21" column="14" lean-forward="true" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/JSON/tyontekijat">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
           <caret line="6" column="1" lean-forward="true" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/JSON/tyontekijat_testaus.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="630">
-          <caret line="30" column="5" selection-start-line="30" selection-start-column="5" selection-end-line="30" selection-end-column="5" />
         </state>
       </provider>
     </entry>

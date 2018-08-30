@@ -1,8 +1,8 @@
 {"tyontekijat":
 [
-  {"firstName":"Mauno", "lastName":"Ahonen"},
-  {"firstName":"Matti", "lastName":"Näsä"},
-  {"firstName":"Raimo", "lastName":"Vormisto"},
-  {"firstName":"Timo", "lastName":"Silakka"}
+  {"firstName":"Mauno", "lastName":"Ahonen", "puhno":"0501122334", "osoite":"Hanhivaara 123"},
+  {"firstName":"Matti", "lastName":"Näsä","puhno":"0501223334", "osoite":"Duckburg 123"},
+  {"firstName":"Raimo", "lastName":"Vormisto","puhno":"0509494494", "osoite":"Vaakkula 123"},
+  {"firstName":"Timo", "lastName":"Silakka","puhno":"0501234567", "osoite":"Ankkalandia 123"}
 ]
 }
