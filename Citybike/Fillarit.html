@@ -5,6 +5,31 @@
     <title>Fillaritilanne</title>
 </head>
 <body>
+<div id="Current_situation"></div>
+<script>
+    var xmlhttp = new XMLHttpRequest();
+    var url = "https://dev.hsl.fi/citybike/stations/stations_20180830T112301Z.json";
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+            var myArr = JSON.parse(xmlhttp.responseText);
+            myFunction(myArr.result);
+        }
+    };
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
 
+    function myFunction(arr) {
+        var htmlTable = "<table border ='1'>";
+        for (var i = 0; i < arr.length; i++) {
+            htmlTable +=
+                "<td>" + arr[i].name + "</td>"
+                + "<td>" + arr[i].total_slots + "</td>"
+                + "<td>" + arr[i].free_slots + "</td>"
+                + "<td>" + arr[i].avl_bikes + "</td></tr>";
+        }
+        htmlTable += "</table>";
+        document.getElementById("Current_situation").innerHTML = htmlTable;
+    }
+</script>
 </body>
 </html>
