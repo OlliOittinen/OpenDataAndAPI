@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Fillaritilanne</title>
+    <link rel="stylesheet" href="styling.css">
 </head>
 <body>
 <div id="Current_situation"></div>
@@ -19,7 +20,7 @@
     }};
 
     function getBikes(arr) {
-        var htmlTable = "<table border='1'>";
+        var htmlTable = "<table id='bikes'>";
         htmlTable += "<th>" + "Asema" + "</th><th>" + "Pyöriä vapaana" + "</th><th>" + "Paikkoja vapaana" + "</th>";
         for (var i = 0; i < arr.length; i++) {
             htmlTable +=
