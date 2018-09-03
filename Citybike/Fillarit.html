@@ -14,14 +14,13 @@
 
     xmlhttp.onreadystatechange = function () {
     if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-        var myArr = JSON.parse(xmlhttp.responseText);
-        myFunction(myArr.stations);
+        var bikes = JSON.parse(xmlhttp.responseText);
+        getBikes(bikes.stations);
     }};
 
-    function myFunction(arr) {
+    function getBikes(arr) {
         var htmlTable = "<table border='1'>";
         htmlTable += "<th>" + "Asema" + "</th><th>" + "Pyöriä vapaana" + "</th><th>" + "Paikkoja vapaana" + "</th>";
-
         for (var i = 0; i < arr.length; i++) {
             htmlTable +=
                 "<tr><td>" + arr[i].name + "</td>"
