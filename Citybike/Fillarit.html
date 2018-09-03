@@ -8,6 +8,24 @@
 <body>
 <div id="Current_situation"></div>
 <script>
+
+    fetch ("https://api.digitransit.fi/routing/v1/routers/hsl/bike_rental")
+        .then(function ( response) {
+        if (response.status !== 200) {
+            console.log('Looks like there was a problem. Status Code: ' +
+                response.status);
+            return;
+        }
+
+        // Examine the text in the response
+        response.json().then((data) => getBikes(data));
+    }
+    )
+    .catch(function(err) {
+        console.log('Fetch Error :-S', err);
+    });
+
+/*
     var xmlhttp = new XMLHttpRequest();
     var bikeURL = "https://api.digitransit.fi/routing/v1/routers/hsl/bike_rental";
     xmlhttp.open("GET", bikeURL, true);
@@ -18,8 +36,9 @@
         var bikes = JSON.parse(xmlhttp.responseText);
         getBikes(bikes.stations);
     }};
-
+*/
     function getBikes(arr) {
+        arr = arr.stations;
         var htmlTable = "<table id='bikes'>";
         htmlTable += "<th>" + "Asema" + "</th><th>" + "Pyöriä vapaana" + "</th><th>" + "Paikkoja vapaana" + "</th>";
         for (var i = 0; i < arr.length; i++) {
