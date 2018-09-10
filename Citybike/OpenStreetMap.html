@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>OpenStreetMap &amp; OpenLayers - Marker Example</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
     <script src="https://openlayers.org/en/v4.6.5/build/ol.js" type="text/javascript"></script>
 
@@ -13,6 +13,7 @@
         var mapLng = 24.925;
         var mapLat = 60.182;
         var mapDefaultZoom = 13;
+
         function initialize_map() {
             map = new ol.Map({
                 target: "map",
@@ -29,9 +30,10 @@
                 })
             });
         }
+
         function add_map_point(lat, lng) {
             var vectorLayer = new ol.layer.Vector({
-                source:new ol.source.Vector({
+                source: new ol.source.Vector({
                     features: [new ol.Feature({
                         geometry: new ol.geom.Point(ol.proj.transform([parseFloat(lng), parseFloat(lat)], 'EPSG:4326', 'EPSG:3857')),
                     })]
@@ -50,22 +52,21 @@
             //Source
             //https://mediarealm.com.au/articles/openstreetmap-openlayers-map-markers/
         }
-        function myFunction(arr) {
-            arr = arr.stations;
-            var htmlTable = "<table id='bikes'>";
-            htmlTable += "<th>" + "Asema" + "</th><th>" + "Pyöriä vapaana" + "</th><th>" + "Paikkoja vapaana" + "</th>";
+
+        function createList(arr) {
+            var htmlList = "<ul id='bikes'>";
             for (var i = 0; i < arr.length; i++) {
-                htmlTable +=
-                    "<tr><td>" + arr[i].name + "</td>"
-                    + "<td>" + arr[i].bikesAvailable + "</td>"
-                    + "<td>" + arr[i].spacesAvailable + "</td></tr>";
+                htmlList += "<li>" + "<a href='#'>" + arr[i].name + "</a>" + "</li>";
             }
-            htmlTable += "</table>";
-            document.getElementById("bikelist").innerHTML = htmlTable;
+            htmlList += "</ul>";
+            document.getElementById("bikelist").innerHTML = htmlList;
+        }
+
+        function filter() {
             var input, filter, ul, li, a, i;
             input = document.getElementById("myInput");
             filter = input.value.toUpperCase();
-            ul = document.getElementById("myUL");
+            ul = document.getElementById("bikelist");
             li = ul.getElementsByTagName("li");
             for (i = 0; i < li.length; i++) {
                 a = li[i].getElementsByTagName("a")[0];
@@ -86,7 +87,6 @@
                     }
                     // Examine the text in the response
                     response.json().then((data) => drawBikeLocations(data));
-                    response.json().then((data) => myFunction(data));
                 }
             )
             .catch(function (err) {
@@ -95,7 +95,9 @@
 
         function drawBikeLocations(array) {
             array = array.stations;
-            for (let i=0; i<array.length; i++) {
+            createList(array);
+            filter();
+            for (let i = 0; i < array.length; i++) {
                 add_map_point(array[i].y, array[i].x);
             }
 
@@ -103,7 +105,7 @@
     </script>
 </head>
 <body onload="initialize_map();">
-<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for bike stations.." title="Type in a name">
+<input type="text" id="myInput" onkeyup="filter()" placeholder="Search for bike stations.." title="Type in a name">
 <div id="bikelist">AS</div>
 <div id="map" style="width: 100vw; height: 100vh;"></div>
 </body>
