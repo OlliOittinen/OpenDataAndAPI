@@ -3,10 +3,9 @@
 }
 
 #map {
-    alignment: top;
     float: right;
-    width: 68vw;
-    height: 58vw;
+    width: 70%;
+    height: 50vw;
 }
 
 #bikelist {
