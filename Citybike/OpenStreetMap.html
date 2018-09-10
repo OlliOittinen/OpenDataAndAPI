@@ -50,6 +50,32 @@
             //Source
             //https://mediarealm.com.au/articles/openstreetmap-openlayers-map-markers/
         }
+        function myFunction(arr) {
+            arr = arr.stations;
+            var htmlTable = "<table id='bikes'>";
+            htmlTable += "<th>" + "Asema" + "</th><th>" + "Pyöriä vapaana" + "</th><th>" + "Paikkoja vapaana" + "</th>";
+            for (var i = 0; i < arr.length; i++) {
+                htmlTable +=
+                    "<tr><td>" + arr[i].name + "</td>"
+                    + "<td>" + arr[i].bikesAvailable + "</td>"
+                    + "<td>" + arr[i].spacesAvailable + "</td></tr>";
+            }
+            htmlTable += "</table>";
+            document.getElementById("bikelist").innerHTML = htmlTable;
+            var input, filter, ul, li, a, i;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("myUL");
+            li = ul.getElementsByTagName("li");
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("a")[0];
+                if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
 
         fetch("https://api.digitransit.fi/routing/v1/routers/hsl/bike_rental")
             .then(function (response) {
@@ -60,6 +86,7 @@
                     }
                     // Examine the text in the response
                     response.json().then((data) => drawBikeLocations(data));
+                    response.json().then((data) => myFunction(data));
                 }
             )
             .catch(function (err) {
@@ -76,6 +103,8 @@
     </script>
 </head>
 <body onload="initialize_map();">
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for bike stations.." title="Type in a name">
+<div id="bikelist">AS</div>
 <div id="map" style="width: 100vw; height: 100vh;"></div>
 </body>
 </html>
