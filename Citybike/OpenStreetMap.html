@@ -50,9 +50,32 @@
             //Source
             //https://mediarealm.com.au/articles/openstreetmap-openlayers-map-markers/
         }
+
+        fetch("https://api.digitransit.fi/routing/v1/routers/hsl/bike_rental")
+            .then(function (response) {
+                    if (response.status !== 200) {
+                        console.log('Looks like there was a problem. Status Code: ' +
+                            response.status);
+                        return;
+                    }
+                    // Examine the text in the response
+                    response.json().then((data) => drawBikeLocations(data));
+                }
+            )
+            .catch(function (err) {
+                console.log('Fetch Error :-S', err);
+            });
+
+        function drawBikeLocations(array) {
+            array = array.stations;
+            for (let i=0; i<array.length; i++) {
+                add_map_point(array[i].y, array[i].x);
+            }
+
+        };
     </script>
 </head>
-<body onload="initialize_map(); add_map_point(60.182, 24.925);">
+<body onload="initialize_map();">
 <div id="map" style="width: 100vw; height: 100vh;"></div>
 </body>
 </html>
