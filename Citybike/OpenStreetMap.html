@@ -5,6 +5,7 @@
     <title>OpenStreetMap &amp; OpenLayers - Marker Example</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
+    <link rel="stylesheet" href="style.css">
     <script src="https://openlayers.org/en/v4.6.5/build/ol.js" type="text/javascript"></script>
 
     <script>
@@ -105,8 +106,8 @@
     </script>
 </head>
 <body onload="initialize_map();">
+<div id="map"></div>
 <input type="text" id="myInput" onkeyup="filter()" placeholder="Search for bike stations.." title="Type in a name">
-<div id="bikelist">AS</div>
-<div id="map" style="width: 100vw; height: 100vh;"></div>
+<div id="bikelist"></div>
 </body>
 </html>
