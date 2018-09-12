@@ -1,0 +1,49 @@
+* {
+    box-sizing: border-box;
+    font-family: Tahoma;
+}
+
+#mapid {
+    float: right;
+    width: 70%;
+    height: 50vw;
+}
+
+#bikelist {
+    alignment: left;
+    width: 30%;
+}
+
+#myInput {
+    alignment: left;
+    width: 30%;
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Vector_search_icon.svg/2000px-Vector_search_icon.svg.png");
+    background-position: 10px 12px;
+    background-repeat: no-repeat;
+    background-size: 20px,20px;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+}
+
+#bikes {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#bikes li a {
+    border: 1px solid #ddd;
+    margin-top: -1px; /* Prevent double borders */
+    background-color: #f6f6f6;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 18px;
+    color: black;
+    display: block
+}
+
+#bikes li a:hover:not(.header) {
+    background-color: #eee;
+}

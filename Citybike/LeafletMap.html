@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
+          integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+          crossorigin=""/>
+    <link rel="stylesheet" href="map.css"/>
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
+            integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
+            crossorigin=""></script>
+</head>
+<body>
+<div id="mapid"></div>
+<input type="text" id="myInput" onkeyup="filter()" placeholder="Search for bike stations.." title="Type in a name">
+<div id="bikelist"></div>
+<script>
+    var mymap = L.map('mapid').setView([60.182, 24.925], 12);
+    var markers = [];
+    let htmlList;
+
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox.streets',
+        accessToken: 'pk.eyJ1IjoianVyb3oiLCJhIjoiY2psejk2anRxMXdvNjN2cW40YjU3MTM1YyJ9.DGQ8zMnybjD7JFwoALeQFg'
+    }).addTo(mymap);
+
+
+    fetch("https://api.digitransit.fi/routing/v1/routers/hsl/bike_rental")
+        .then(function (response) {
+                if (response.status !== 200) {
+                    console.log('Looks like there was a problem. Status Code: ' +
+                        response.status);
+                    return;
+                }
+                // Examine the text in the response
+                response.json().then((data) => drawBikeLocations(data));
+            }
+        )
+        .catch(function (err) {
+            console.log('Fetch Error :-S', err);
+        });
+
+    function createList(arr) {
+        htmlList = "<ul id='bikes'>";
+        var id = 0;
+        for (let i = 0; i < arr.length; i++) {
+            id++;
+            htmlList += "<li>" + "<a href='#'>" + arr[i].name + "</a>" + "</li>";
+        }
+        htmlList += "</ul>";
+        document.getElementById("bikelist").innerHTML = htmlList;
+    }
+
+    function filter() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("bikelist");
+        li = ul.getElementsByTagName("li");
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+
+    function drawBikeLocations(array) {
+        array = array.stations;
+        createList(array);
+        filter();
+        for (let i = 0; i < array.length; i++) {
+            marker = L.marker([array[i].y, array[i].x]).addTo(mymap);
+            marker.bindPopup("<b>" + array[i].name + "</b><p>Pyöriä vapaana: " + array[i].bikesAvailable + "</br>Paikkoja vapaana: " + array[i].spacesAvailable + "</p>");
+            markers[i]=marker;
+        }
+
+    };
+</script>
+</body>
+</html>
