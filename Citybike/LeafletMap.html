@@ -45,7 +45,7 @@
     function focusOnStation(link, array){
         for (let i=0;i<array.length;i++){
             if(link.textContent == array[i].name){
-                mymap.panTo([array[i].y, array[i].x]);
+                mymap.flyTo([array[i].y, array[i].x], 15);
                 markers[i].openPopup();
             }
         }
