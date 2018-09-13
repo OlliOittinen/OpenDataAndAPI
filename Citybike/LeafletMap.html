@@ -46,8 +46,7 @@
         for (let i=0;i<array.length;i++){
             if(link.textContent == array[i].name){
                 mymap.panTo([array[i].y, array[i].x]);
-            } else {
-                console.log("VITTU");
+                markers[i].openPopup();
             }
         }
     }
