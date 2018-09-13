@@ -42,13 +42,21 @@
         .catch(function (err) {
             console.log('Fetch Error :-S', err);
         });
+    function focusOnStation(link, array){
+        for (let i=0;i<array.length;i++){
+            if(link.textContent == array[i].name){
+                mymap.panTo([array[i].y, array[i].x]);
+            } else {
+                console.log("VITTU");
+            }
+        }
+    }
 
     function createList(arr) {
+        array = arr;
         htmlList = "<ul id='bikes'>";
-        var id = 0;
         for (let i = 0; i < arr.length; i++) {
-            id++;
-            htmlList += "<li>" + "<a href='#'>" + arr[i].name + "</a>" + "</li>";
+            htmlList += "<li>" + "<a href='#' onclick='focusOnStation(this, array)'>" + array[i].name + "</a>" + "</li>";
         }
         htmlList += "</ul>";
         document.getElementById("bikelist").innerHTML = htmlList;
