@@ -62,7 +62,7 @@
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 //myFunction(resultArr);
-                xhr.open("GET", "http://localhost:8081/getDsates?start=" + startdate + "&end=" + enddate, true);
+                xhr.open("GET", "http://localhost:8081/getDates?start=" + startdate + "&end=" + enddate, true);
                 xhr.send();
                 document.getElementById("locationInfo").innerHTML = xhr.responseText;
                 if (xhr.responseText) { // something found
