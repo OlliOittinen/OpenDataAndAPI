@@ -20,7 +20,7 @@ var server = app.listen(8081, function () {
     console.log("Example app listening at http://%s:%s", host, port)
 });
 
-app.get('/getBarJokes', function (req, res) {
+app.get('/Bar', function (req, res) {
 
     var sql = "SELECT * FROM jokes;";
 
