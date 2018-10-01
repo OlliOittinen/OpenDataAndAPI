@@ -16,10 +16,36 @@
     <a href="Puns">Puns</a>
     <a href="Yomomma">Yo momma</a>
 </div>
-
-<div class="main">
+    <form>
+        <p>Choose a category</p>
+            <select id="category">
+                <option value="Bar">Bar</option>
+                <option value="Dad">Dad</option>
+                <option value="Dark">Dark</option>
+                <option value="NSFW">NSFW</option>
+                <option value="Puns">Puns</option>
+                <option value="Yo Momma">Yo Momma</option>
+            </select>
+        Joke: <input type="textfield" id="joke"/>
+        <input type="button" value="AddJoke" onClick="handleForm()"/><br>
+    </form>
 
 </div>
+<! --- tää eka -->
+<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
+<script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyCYqbAvdsQ_tYh77TaxmL2dDUeNhMKQpgA",
+        authDomain: "joke-api-578e4.firebaseapp.com",
+        databaseURL: "https://joke-api-578e4.firebaseio.com",
+        projectId: "joke-api-578e4",
+        storageBucket: "joke-api-578e4.appspot.com",
+        messagingSenderId: "1068760777389"
+    };
+    firebase.initializeApp(config);
+</script>
+
 <script>
     function getBarJokes() {
         var xhr = new XMLHttpRequest();
@@ -29,6 +55,24 @@
                 xhr.send();
             }
         }
+    }
+
+    function handleForm() {
+        var catIndex = document.getElementById('category');
+        var category = catIndex.options[catIndex.selectedIndex].value;
+        var joke = document.getElementById('joke').value;
+        JSON.stringify(joke);
+        console.log(joke);
+        //save to FireBase
+        addJoke(category, joke);
+    }
+
+    function addJoke(category, joke) {
+        firebase.database().ref('categories/' + category).set({
+            category: category,
+            joke: joke,
+            rating: 3
+        })
     }
 </script>
 </body>
