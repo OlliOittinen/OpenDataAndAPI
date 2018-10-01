@@ -24,6 +24,10 @@ app.get('/', function (req, res) {
     res.sendFile("home.html", {root: __dirname});
 });
 
+app.get('/SubmitJoke', function (req, res) {
+    res.sendFile("submit_joke.html", {root: __dirname});
+});
+
 var server = app.listen(8081, function () {
     var host = server.address().address;
     var port = server.address().port;
@@ -39,8 +43,8 @@ app.get('/All', function (req, res) {
         var joke = snapshot.val().joke;
         var rating = snapshot.val().rating;
         var jokeStats = category + joke + rating;
-        console.log(jokeStats);
-        res.send(jokeStats);
+        console.log(joke);
+        res.send(joke);
     })
 
 });
