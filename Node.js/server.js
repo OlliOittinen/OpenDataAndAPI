@@ -13,7 +13,7 @@ app.get('/', function (req, res) {
     res.sendFile("events.html", {root: __dirname});
 });
 
-app.get('/getDates', function (req, res) {
+app.get('/dates', function (req, res) {
     var start = "'" + req.query.start.replace(/-/g, "/") + "'"; //lisää hipsut ja vaihda (-) merkki (/) merkiksi koska sql
     var end = "'" + req.query.end.replace(/-/g, "/") + "'";
 

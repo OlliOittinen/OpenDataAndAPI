@@ -84,6 +84,7 @@
 
 <div class="categories">
     <h1>Categories</h1>
+    <a href ="All">All</a>
     <a href="Bar" onclick="getBarJokes()">Bar</a>
     <a href="Dad">Dad</a>
     <a href="Dark">Dark</a>
@@ -122,11 +123,11 @@
 </script>
 
 <script>
-    function getBarJokes() {
+    function getJokes(category) {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                xhr.open("GET", "http://localhost:8081/getBarJokes", true);
+                xhr.open("GET", "http://localhost:8081/"+category, true);
                 xhr.send();
             }
         }
