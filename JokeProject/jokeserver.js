@@ -35,20 +35,20 @@ var server = app.listen(8081, function () {
     console.log("Example app listening at http://%s:%s", host, port)
 });
 
-app.get('/All', function (req, res) {
-    var fbref = firebase.database().ref('/');
+app.get('/Bar', function (req, res) {
+    var fbref = firebase.database().ref('/categories/Bar');
     fbref.on("value", function(snapshot) {
         console.log(snapshot.val());
         var category = snapshot.val().category;
         var joke = snapshot.val().joke;
         var rating = snapshot.val().rating;
         var jokeStats = category + joke + rating;
-        console.log(joke);
-        res.send(joke);
+        console.log(jokeStats);
+        res.send(jokeStats);
     })
 
 });
-
+/*
 app.get('/Bar', function (req, res) {
 
     var sql = "SELECT * FROM jokes;";
@@ -58,4 +58,4 @@ app.get('/Bar', function (req, res) {
         console.log(result);
         res.send(result);
     });
-});
+});*/
