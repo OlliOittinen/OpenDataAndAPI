@@ -42,7 +42,7 @@ app.get('/Bar', function (req, res) {
         var category = snapshot.val().category;
         var joke = snapshot.val().joke;
         var rating = snapshot.val().rating;
-        var jokeStats = category + joke + rating;
+        var jokeStats = "Category: " + category + "</br>" + " Joke: " + joke + "</br>" +  " Rating: " + rating;
         console.log(jokeStats);
         res.send(jokeStats);
     })

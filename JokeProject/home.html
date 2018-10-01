@@ -85,28 +85,16 @@
 <div class="categories">
     <h1>Categories</h1>
     <a href ="All">All</a>
-    <a href="Bar" onclick="getBarJokes()">Bar</a>
+    <a href="Bar">Bar</a>
     <a href="Dad">Dad</a>
     <a href="Dark">Dark</a>
     <a href="NSFW">NSFW</a>
     <a href="Puns">Puns</a>
     <a href="Yomomma">Yo momma</a>
-</div>
-    <form>
-        <p>Choose a category</p>
-            <select id="category">
-                <option value="Bar">Bar</option>
-                <option value="Dad">Dad</option>
-                <option value="Dark">Dark</option>
-                <option value="NSFW">NSFW</option>
-                <option value="Puns">Puns</option>
-                <option value="Yo Momma">Yo Momma</option>
-            </select>
-        Joke: <input type="textfield" id="joke"/>
-        <input type="button" value="AddJoke" onClick="handleForm()"/><br>
-    </form>
+    <a href="SubmitJoke">Submit a Joke</a>
 
 </div>
+
 <! --- tää eka -->
 <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
 <script>
@@ -122,34 +110,5 @@
     firebase.initializeApp(config);
 </script>
 
-<script>
-    function getJokes(category) {
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                xhr.open("GET", "http://localhost:8081/"+category, true);
-                xhr.send();
-            }
-        }
-    }
-
-    function handleForm() {
-        var catIndex = document.getElementById('category');
-        var category = catIndex.options[catIndex.selectedIndex].value;
-        var joke = document.getElementById('joke').value;
-        JSON.stringify(joke);
-        console.log(joke);
-        //save to FireBase
-        addJoke(category, joke);
-    }
-
-    function addJoke(category, joke) {
-        firebase.database().ref('categories/' + category).set({
-            category: category,
-            joke: joke,
-            rating: 3
-        })
-    }
-</script>
 </body>
 </html>
