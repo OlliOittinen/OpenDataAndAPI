@@ -63,7 +63,7 @@
         }
 
         /* Style page content */
-        .main {
+        #main {
             margin-left: 12%; /* Same as the width of the sidebar */
             padding: 0px 10px;
         }
@@ -78,18 +78,21 @@
                 font-size: 18px;
             }
         }
+        #jokes {
+
+        }
     </style>
 </head>
 <body>
 <div class="categories">
     <h1>Categories</h1>
-    <a href ="All">All</a>
-    <a href="Bar">Bar</a>
-    <a href="Dad">Dad</a>
-    <a href="Dark">Dark</a>
-    <a href="NSFW">NSFW</a>
-    <a href="Puns">Puns</a>
-    <a href="Yomomma">Yo momma</a>
+    <a onclick="CatClick('All')">All</a>
+    <a onclick="CatClick('Bar')">Bar</a>
+    <a onclick="CatClick('Dad')">Dad</a>
+    <a onclick="CatClick('Dark')">Dark</a>
+    <a onclick="CatClick('NSFW')">NSFW</a>
+    <a onclick="CatClick('Puns')">Puns</a>
+    <a onclick="CatClick('Yo momma')">Yo momma</a>
     <a href="SubmitJoke">Submit a Joke</a>
 </div>
 
@@ -106,6 +109,33 @@
         messagingSenderId: "1068760777389"
     };
     firebase.initializeApp(config);
+
+    function snapshotToArray(snapshot) {
+        var returnArr = [];
+
+        snapshot.forEach(function(childSnapshot) {
+            var item = childSnapshot.val();
+            item.key = childSnapshot.key;
+
+            returnArr.push(item);
+        });
+
+        return returnArr;
+    };
+
+    function CatClick(category) {
+        var fbref = firebase.database().ref('/categories/'+category);
+        fbref.on("value", function (snapshot) {
+            console.log(snapshotToArray(snapshot));
+            var html = "";
+            var array = snapshotToArray(snapshot);
+            for (var i=0; i<array.length;i++){
+                html += array[i].joke + " " + array[i].likes + "</br>"
+            }
+            document.getElementById("main").innerHTML = html;
+        })
+    }
 </script>
+<div id="main">Knock Knock.</div>
 </body>
 </html>
