@@ -45,8 +45,13 @@
         }
 
         @media screen and (max-height: 450px) {
-            .sidenav {padding-top: 15px;}
-            .sidenav a {font-size: 18px;}
+            .sidenav {
+                padding-top: 15px;
+            }
+
+            .sidenav a {
+                font-size: 18px;
+            }
         }
     </style>
 </head>
@@ -63,7 +68,7 @@
         </ul>
     </div>
     <div class="sidenav">
-        <a onclick="CatClick('All')">All</a>
+        <a onclick="CatClick()">All</a>
         <a onclick="CatClick('Bar')">Bar</a>
         <a onclick="CatClick('Dad')">Dad</a>
         <a onclick="CatClick('Dark')">Dark</a>
@@ -90,7 +95,7 @@
     function snapshotToArray(snapshot) {
         var returnArr = [];
 
-        snapshot.forEach(function(childSnapshot) {
+        snapshot.forEach(function (childSnapshot) {
             var item = childSnapshot.val();
             item.key = childSnapshot.key;
 
@@ -101,16 +106,37 @@
     };
 
     function CatClick(category) {
-        var fbref = firebase.database().ref('/categories/'+category);
-        fbref.on("value", function (snapshot) {
-            console.log(snapshotToArray(snapshot));
-            var html = "";
-            var array = snapshotToArray(snapshot);
-            for (var i=0; i<array.length;i++){
-                html += array[i].joke + " " + array[i].likes + "</br>"
-            }
-            document.getElementById("main").innerHTML = html;
-        })
+        var html = "";
+        var array;
+        var fbref;
+        if (category != null) {
+            fbref = firebase.database().ref('/categories/' + category);
+            fbref.on("value", function (snapshot) {
+                console.log(snapshotToArray(snapshot));
+                array = snapshotToArray(snapshot);
+                for (var i = 0; i < array.length; i++) {
+                    html += array[i].joke + " " + array[i].likes + "</br>"
+                }
+                document.getElementById("main").innerHTML = html;
+            })
+        } else {
+            fbref = firebase.database().ref('/categories/');
+            fbref.on("value", function (snapshot) {
+                array = snapshotToArray(snapshot);
+                for (var i = 0; i < array.length; i++) {
+                    var key = array[i].key;
+                    fbref = firebase.database().ref('/categories/' + key);
+                    fbref.on("value", function (snapshot) {
+                        var obj = snapshotToArray(snapshot);
+                        for (var i = 0; i < obj.length; i++) {
+                            html += obj[i].joke + " " + obj[i].likes + "</br>"
+                        }
+                    });
+
+                }
+                document.getElementById("main").innerHTML = html;
+            });
+        }
     }
 </script>
 
