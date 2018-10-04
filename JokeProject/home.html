@@ -1,50 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Funny jokes xd</title>
-    <link rel="stylesheet" href="home.css">
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
+            font-family: "Roboto", sans-serif;
         }
 
-        .header {
-            padding: 10px 16px;
-            background: #555;
-            color: #f1f1f1;
-        }
-
-        /* Page content */
-        .content {
-            padding: 16px;
-        }
-
-        /* The sticky class is added to the header with JS when it reaches its scroll position */
-        .sticky {
+        .sidenav {
+            margin-top: 51px;
+            height: 100%;
+            width: 133px;
             position: fixed;
+            z-index: 1;
             top: 0;
-            width: 100%
-        }
-
-        /* Add some top padding to the page content to prevent sudden quick movement (as the header gets a new position at the top of the page (position:fixed and top:0) */
-        .sticky + .content {
-            padding-top: 102px;
-        }
-
-        /* The sidebar menu */
-        .categories {
-            height: 100%; /* Full-height: remove this if you want "auto" height */
-            width: 12%; /* Set the width of the sidebar */
-            position: fixed; /* Fixed Sidebar (stay in place on scroll) */
             left: 0;
-            background-color: #111; /* Black */
-            overflow-x: hidden; /* Disable horizontal scroll */
+            background-color: #3c3f41;
+            overflow-x: hidden;
+            padding-top: 20px;
         }
 
-        /* The navigation menu links */
-        .categories a {
+        .sidenav a {
             padding: 6px 8px 6px 16px;
             text-decoration: none;
             font-size: 25px;
@@ -52,51 +33,47 @@
             display: block;
         }
 
-        /* When you mouse over the navigation links, change their color */
-        .categories a:hover {
+        .sidenav a:hover {
             color: #f1f1f1;
         }
 
-        /*nav menu title*/
-        .categories h1 {
-            color: #dd1144;
-        }
-
-        /* Style page content */
-        #main {
-            margin-left: 12%; /* Same as the width of the sidebar */
+        .main {
+            margin-left: 133px; /* Same as the width of the sidenav */
+            margin-top: 60px;
+            font-size: 28px; /* Increased text to enable scrolling */
             padding: 0px 10px;
         }
 
-        /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
         @media screen and (max-height: 450px) {
-            .categories {
-                padding-top: 15px;
-            }
-
-            .categories a {
-                font-size: 18px;
-            }
-        }
-        #jokes {
-
+            .sidenav {padding-top: 15px;}
+            .sidenav a {font-size: 18px;}
         }
     </style>
 </head>
 <body>
-<div class="categories">
-    <h1>Categories</h1>
-    <a onclick="CatClick('All')">All</a>
-    <a onclick="CatClick('Bar')">Bar</a>
-    <a onclick="CatClick('Dad')">Dad</a>
-    <a onclick="CatClick('Dark')">Dark</a>
-    <a onclick="CatClick('NSFW')">NSFW</a>
-    <a onclick="CatClick('Puns')">Puns</a>
-    <a onclick="CatClick('Yo momma')">Yo momma</a>
-    <a href="SubmitJoke">Submit a Joke</a>
-</div>
 
-<! --- tää eka -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Funny Jokes</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="SubmitJoke">Submit a Joke</a></li>
+        </ul>
+    </div>
+    <div class="sidenav">
+        <a onclick="CatClick('All')">All</a>
+        <a onclick="CatClick('Bar')">Bar</a>
+        <a onclick="CatClick('Dad')">Dad</a>
+        <a onclick="CatClick('Dark')">Dark</a>
+        <a onclick="CatClick('NSFW')">NSFW</a>
+        <a onclick="CatClick('Puns')">Puns</a>
+        <a onclick="CatClick('Yo momma')">Yo momma</a>
+    </div>
+</nav>
+<div class="main" id="main">Knock Knock.</div>
+
 <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
 <script>
     // Initialize Firebase
@@ -136,6 +113,7 @@
         })
     }
 </script>
-<div id="main">Knock Knock.</div>
+
+
 </body>
 </html>
