@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Bootstrap Example</title>
+    <title>Funny Jokes</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -10,6 +10,10 @@
     <style>
         body {
             font-family: "Roboto", sans-serif;
+        }
+
+        a {
+            padding-left: 5px;
         }
 
         .sidenav {
@@ -31,6 +35,7 @@
             font-size: 25px;
             color: #818181;
             display: block;
+            cursor: pointer;
         }
 
         .sidenav a:hover {
@@ -40,7 +45,7 @@
         .main {
             margin-left: 133px; /* Same as the width of the sidenav */
             margin-top: 60px;
-            font-size: 28px; /* Increased text to enable scrolling */
+            font-size: 15px; /* Increased text to enable scrolling */
             padding: 0px 10px;
         }
 
@@ -51,7 +56,20 @@
 
             .sidenav a {
                 font-size: 18px;
+                cursor: pointer;
             }
+        }
+
+        .glyphicon {
+            opacity: 1;
+            transition: opacity .25s ease-in-out;
+            -moz-transition: opacity .25s ease-in-out;
+            -webkit-transition: opacity .25s ease-in-out;
+        }
+
+        .glyphicon:hover {
+            opacity: 0.75;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -68,13 +86,13 @@
         </ul>
     </div>
     <div class="sidenav">
-        <a onclick="CatClick()">All</a>
-        <a onclick="CatClick('Bar')">Bar</a>
-        <a onclick="CatClick('Dad')">Dad</a>
-        <a onclick="CatClick('Dark')">Dark</a>
-        <a onclick="CatClick('NSFW')">NSFW</a>
-        <a onclick="CatClick('Puns')">Puns</a>
-        <a onclick="CatClick('Yo Momma')">Yo Momma</a>
+        <a onclick="catClick()">All</a>
+        <a onclick="catClick('Bar')">Bar</a>
+        <a onclick="catClick('Dad')">Dad</a>
+        <a onclick="catClick('Dark')">Dark</a>
+        <a onclick="catClick('NSFW')">NSFW</a>
+        <a onclick="catClick('Puns')">Puns</a>
+        <a onclick="catClick('Yo Momma')">Yo Momma</a>
     </div>
 </nav>
 <div class="main" id="main">Knock Knock.</div>
@@ -105,8 +123,8 @@
         return returnArr;
     };
 
-    function CatClick(category) {
-        var html = "";
+    function catClick(category) {
+        var html = "<ul class='list-group'>";
         var array;
         var fbref;
         if (category != null) {
@@ -115,8 +133,9 @@
                 console.log(snapshotToArray(snapshot));
                 array = snapshotToArray(snapshot);
                 for (var i = 0; i < array.length; i++) {
-                    html += array[i].joke + " " + array[i].likes + "</br>"
+                    html += "<li class='list-group-item'><i class='glyphicon glyphicon-chevron-up'></i><span class='label label-primary'>" + array[i].likes + "</span><i class='glyphicon glyphicon-chevron-down'></i><a>" + array[i].joke + "</a></li>";
                 }
+                html += "</ul>";
                 document.getElementById("main").innerHTML = html;
             })
         } else {
@@ -129,7 +148,7 @@
                     fbref.on("value", function (snapshot) {
                         var obj = snapshotToArray(snapshot);
                         for (var i = 0; i < obj.length; i++) {
-                            html += obj[i].joke + " " + obj[i].likes + "</br>"
+                            html += "<li class='list-group-item'><i class='glyphicon glyphicon-chevron-up'></i><span class='label label-primary'>" + obj[i].likes + "</span><i class='glyphicon glyphicon-chevron-down'></i><a>" + obj[i].joke + "</a></li>";
                         }
                     });
 
