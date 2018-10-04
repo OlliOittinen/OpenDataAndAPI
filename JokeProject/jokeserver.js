@@ -2,6 +2,7 @@ const express = require('express');
 const firebase = require('firebase');
 const admin = require("firebase-admin");
 const app = express();
+const serviceAccount = require("../JokeProject/joke-api-firebase-adminsdk.json");
 
 var config = {
     apiKey: "AIzaSyCYqbAvdsQ_tYh77TaxmL2dDUeNhMKQpgA",
@@ -12,8 +13,6 @@ var config = {
     messagingSenderId: "1068760777389"
 };
 firebase.initializeApp(config);
-
-const serviceAccount = require("../JokeProject/joke-api-firebase-adminsdk.json");
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -37,25 +36,7 @@ var server = app.listen(8081, function () {
 
 app.get('/Bar', function (req, res) {
     var fbref = firebase.database().ref('/categories/Bar');
-    fbref.on("value", function(snapshot) {
-        console.log(snapshot.val());
-        var category = snapshot.val().category;
-        var joke = snapshot.val().joke;
-        var rating = snapshot.val().rating;
-        var jokeStats = "Category: " + category + "</br>" + " Joke: " + joke + "</br>" +  " Rating: " + rating;
-        console.log(jokeStats);
-        res.send(jokeStats);
+    fbref.on("value", function (snapshot) {
+        res.send(snapshot.val()); //suoraan JSON muotoinen kakka
     })
-
 });
-/*
-app.get('/Bar', function (req, res) {
-
-    var sql = "SELECT * FROM jokes;";
-
-    con.query(sql, function (err, result, fields) {
-        if (err) throw err;
-        console.log(result);
-        res.send(result);
-    });
-});*/
