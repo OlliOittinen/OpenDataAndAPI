@@ -88,11 +88,11 @@
     }
 
     function addJoke(category, joke) {
-        firebase.database().ref('categories/' + category).set({
-            category: category,
+        firebase.database().ref('categories/' + category).push({
             joke: joke,
-            rating: 3
-        });
+            likes: 0
+    })
+        ;
         alert("Joke Submitted Successfully :)");
     }
 </script>
