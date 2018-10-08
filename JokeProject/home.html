@@ -112,8 +112,8 @@
 
     let cat;
     let key;
-    var html = "<ul class='list-group'>";
-
+    var html="";
+    var wantedKey ="";
     function snapshotToArray(snapshot) {
         var returnArr = [];
 
@@ -135,8 +135,8 @@
         if (category != null) {
             fbref = firebase.database().ref('/categories/' + category);
             fbref.on("value", function (snapshot) {
-                console.log(snapshotToArray(snapshot));
                 array = snapshotToArray(snapshot);
+                console.log(array);
                 html = arrayToTable(array);
                 document.getElementById("main").innerHTML = html;
             })
@@ -155,6 +155,7 @@
                     });
                 }
                 document.getElementById("main").innerHTML = allHtml;
+                allHtml =""; //nollaa html ettei tuu duplikatei
             });
         }
     }
@@ -162,26 +163,34 @@
     function arrayToTable(array) {
         html = "<ul class='list-group'>";                 //nollaa html ettei tuu duplikatei
         for (let i = 0; i < array.length; i++) {
+            var string = array[i].key.toString();
             html +=
-                "<li class='list-group-item'>" +
-                "<i class='glyphicon glyphicon-chevron-up' onclick='vote(cat, key)'></i>" +
+                "<li class='list-group-item' id="+array[i].key+">" +
+                "<i class='glyphicon glyphicon-chevron-up' onclick='vote(1, "+string+")'></i>" +
                 "<span class='label label-primary'>" + array[i].likes + "</span>" +
-                "<i class='glyphicon glyphicon-chevron-down' onclick='vote(cat, key)'></i>" +
+                "<i class='glyphicon glyphicon-chevron-down' onclick='vote(-1, "+string+")'></i>" +
                 "<q>" + array[i].joke + "</q></li>";
         }
         return html;
     }
 
-    function vote(category, key) {
-        var fbref = firebase.database().ref('/categories/' + category + "/" + key);
+    function vote(integer, jokeKey) {
+        var fbref = firebase.database().ref('/categories/');
         var currentVotes = 0;
-        fbref.child('likes').once("value", function (snapshot) {
-            currentVotes = snapshot.val();
-        });
-        let upVote = currentVotes + 1;
-        console.log(currentVotes);
-        fbref.update({
-            likes: upVote
+        wantedKey =  jokeKey;
+        console.log(wantedKey);
+        fbref.orderByKey().on("child_added", function (snapshot) {
+            console.log(snapshot.key);
+            snapshot.forEach(function(data) {
+                console.log(data.key);
+                if (wantedKey.equals(data.key)) {
+                    currentVotes = data.child("likes").val();
+                    fbref = firebase.database().ref('categories'+snapshot + "/" + data);
+                    fbref.update({
+                        likes: currentVotes+integer
+                    });
+                }
+            })
         });
     }
 
