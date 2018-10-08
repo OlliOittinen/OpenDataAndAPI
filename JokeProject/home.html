@@ -137,13 +137,13 @@
             fbref.on("value", function (snapshot) {
                 console.log(snapshotToArray(snapshot));
                 array = snapshotToArray(snapshot);
-                html += arrayToTable(array);
+                html = arrayToTable(array);
                 document.getElementById("main").innerHTML = html;
-                //nollaa html ettei tuu duplikatei
-                html = "<ul class='list-group'>";
             })
         } else {
+            //kategoriaa ei oo == kaikki vitsit
             fbref = firebase.database().ref('/categories/');
+            var allHtml = "";
             fbref.on("value", function (snapshot) {
                 array = snapshotToArray(snapshot);
                 for (let i = 0; i < array.length; i++) {
@@ -151,36 +151,16 @@
                     fbref = firebase.database().ref('/categories/' + key);
                     fbref.on("value", function (snapshot) {
                         let obj = snapshotToArray(snapshot);
-                        html += arrayToTable(obj);
+                        allHtml += arrayToTable(obj);
                     });
                 }
-                document.getElementById("main").innerHTML = html;
-                //nollaa html ettei tuu duplikatei
-                html = "<ul class='list-group'>";
+                document.getElementById("main").innerHTML = allHtml;
             });
         }
-      /*  var fbref = firebase.database().ref('/categories/' + category);
-        fbref.on("value", function (snapshot) {
-            console.log(snapshotToArray(snapshot));
-            var html = [];
-            var array = snapshotToArray(snapshot);
-            var cat = category;
-            console.log(array);
-            for (var i = 0; i < array.length; i++) {
-                html +=
-                    array[i].joke +
-                    "<a href=\"\" onclick='upboat(\" \" cat, array[i].key \"\")'>"
-                    + " smash that like button! "
-                    + array[i].likes
-                    + "</a>"
-                    + "</br>"
-            }
-            document.getElementById("main").innerHTML = html;
-        }) */
-
     }
 
     function arrayToTable(array) {
+        html = "<ul class='list-group'>";                 //nollaa html ettei tuu duplikatei
         for (let i = 0; i < array.length; i++) {
             html +=
                 "<li class='list-group-item'>" +
@@ -191,13 +171,14 @@
         }
         return html;
     }
+
     function vote(category, key) {
-        var fbref = firebase.database().ref('/categories/' + category+ "/" + key);
+        var fbref = firebase.database().ref('/categories/' + category + "/" + key);
         var currentVotes = 0;
-        fbref.child('likes').once("value", function(snapshot) {
+        fbref.child('likes').once("value", function (snapshot) {
             currentVotes = snapshot.val();
         });
-        let upVote  = currentVotes + 1;
+        let upVote = currentVotes + 1;
         console.log(currentVotes);
         fbref.update({
             likes: upVote
