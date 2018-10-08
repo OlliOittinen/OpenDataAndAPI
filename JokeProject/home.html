@@ -110,6 +110,9 @@
     };
     firebase.initializeApp(config);
 
+    let cat;
+    let key;
+
     function snapshotToArray(snapshot) {
         var returnArr = [];
 
@@ -125,10 +128,10 @@
     };
 
     function catClick(category) {
+        cat = category;
         var html = "<ul class='list-group'>";
         var array;
         var fbref;
-        let key;
         if (category != null) {
             fbref = firebase.database().ref('/categories/' + category);
             fbref.on("value", function (snapshot) {
@@ -138,9 +141,9 @@
                     key = array[i].key;
                     html +=
                         "<li class='list-group-item'>" +
-                        "<i class='glyphicon glyphicon-chevron-up' onclick='vote(category, key)'></i>" +
+                        "<i class='glyphicon glyphicon-chevron-up' onclick='vote(cat, key)'></i>" +
                         "<span class='label label-primary'>" + array[i].likes + "</span>" +
-                        "<i class='glyphicon glyphicon-chevron-down' onclick='vote(category, key)'></i>" +
+                        "<i class='glyphicon glyphicon-chevron-down' onclick='vote(cat, key)'></i>" +
                         "<q>" + array[i].joke + "</q></li>";
                 }
                 html += "</ul>";
@@ -158,9 +161,9 @@
                         for (let i = 0; i < obj.length; i++) {
                             html +=
                                 "<li class='list-group-item'>" +
-                                "<i class='glyphicon glyphicon-chevron-up' onclick='vote(category, key)'></i>" +
+                                "<i class='glyphicon glyphicon-chevron-up' onclick='vote(cat, key)'></i>" +
                                 "<span class='label label-primary'>" + obj[i].likes + "</span>" +
-                                "<i class='glyphicon glyphicon-chevron-down' onclick='vote(category, key)'></i>" +
+                                "<i class='glyphicon glyphicon-chevron-down' onclick='vote(cat, key)'></i>" +
                                 "<q>" + obj[i].joke + "</q></li>";
                         }
                     });
@@ -190,9 +193,16 @@
     }
 
     function vote(category, key) {
-        var fbref = firebase.database().ref('/categories/' + category/key);
+        var fbref = firebase.database().ref('/categories/' + category+ "/" + key);
+        var currentVotes = 0;
+        fbref.child('likes').once("value", function(snapshot) {
+            currentVotes = snapshot.val();
+        });
+        //var currentVotes = fbref.child('likes').val();
+        let upVote  = currentVotes + 1;
+        console.log(currentVotes);
         fbref.update({
-            likes: fbref.child('likes').val() + 1
+            likes: upVote
         });
     }
 
