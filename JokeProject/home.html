@@ -208,7 +208,7 @@
                 console.log(data.key);
                 if (wantedKey == data.key) {
                     currentVotes = data.child("likes").val();
-                    fbref = firebase.database().ref('/categories/' + snapshot.key);
+                    fbref = firebase.database().ref('/categories/' + snapshot.key +'/' +data.key);
                     var newValue = currentVotes + integer;
                     console.log(newValue);
                     fbref.update({
