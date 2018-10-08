@@ -112,6 +112,7 @@
 
     let cat;
     let key;
+    var html = "<ul class='list-group'>";
 
     function snapshotToArray(snapshot) {
         var returnArr = [];
@@ -129,7 +130,6 @@
 
     function catClick(category) {
         cat = category;
-        var html = "<ul class='list-group'>";
         var array;
         var fbref;
         if (category != null) {
@@ -137,17 +137,10 @@
             fbref.on("value", function (snapshot) {
                 console.log(snapshotToArray(snapshot));
                 array = snapshotToArray(snapshot);
-                for (var i = 0; i < array.length; i++) {
-                    key = array[i].key;
-                    html +=
-                        "<li class='list-group-item'>" +
-                        "<i class='glyphicon glyphicon-chevron-up' onclick='vote(cat, key)'></i>" +
-                        "<span class='label label-primary'>" + array[i].likes + "</span>" +
-                        "<i class='glyphicon glyphicon-chevron-down' onclick='vote(cat, key)'></i>" +
-                        "<q>" + array[i].joke + "</q></li>";
-                }
-                html += "</ul>";
+                html += arrayToTable(array);
                 document.getElementById("main").innerHTML = html;
+                //nollaa html ettei tuu duplikatei
+                html = "<ul class='list-group'>";
             })
         } else {
             fbref = firebase.database().ref('/categories/');
@@ -158,18 +151,12 @@
                     fbref = firebase.database().ref('/categories/' + key);
                     fbref.on("value", function (snapshot) {
                         let obj = snapshotToArray(snapshot);
-                        for (let i = 0; i < obj.length; i++) {
-                            html +=
-                                "<li class='list-group-item'>" +
-                                "<i class='glyphicon glyphicon-chevron-up' onclick='vote(cat, key)'></i>" +
-                                "<span class='label label-primary'>" + obj[i].likes + "</span>" +
-                                "<i class='glyphicon glyphicon-chevron-down' onclick='vote(cat, key)'></i>" +
-                                "<q>" + obj[i].joke + "</q></li>";
-                        }
+                        html += arrayToTable(obj);
                     });
-
                 }
                 document.getElementById("main").innerHTML = html;
+                //nollaa html ettei tuu duplikatei
+                html = "<ul class='list-group'>";
             });
         }
       /*  var fbref = firebase.database().ref('/categories/' + category);
@@ -190,15 +177,26 @@
             }
             document.getElementById("main").innerHTML = html;
         }) */
+
     }
 
+    function arrayToTable(array) {
+        for (let i = 0; i < array.length; i++) {
+            html +=
+                "<li class='list-group-item'>" +
+                "<i class='glyphicon glyphicon-chevron-up' onclick='vote(cat, key)'></i>" +
+                "<span class='label label-primary'>" + array[i].likes + "</span>" +
+                "<i class='glyphicon glyphicon-chevron-down' onclick='vote(cat, key)'></i>" +
+                "<q>" + array[i].joke + "</q></li>";
+        }
+        return html;
+    }
     function vote(category, key) {
         var fbref = firebase.database().ref('/categories/' + category+ "/" + key);
         var currentVotes = 0;
         fbref.child('likes').once("value", function(snapshot) {
             currentVotes = snapshot.val();
         });
-        //var currentVotes = fbref.child('likes').val();
         let upVote  = currentVotes + 1;
         console.log(currentVotes);
         fbref.update({
