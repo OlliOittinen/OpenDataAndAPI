@@ -61,11 +61,9 @@ app.get('/Jokes', async function (req, res) {
 app.get('/Submit', function (req, res) {
     let category = req.query.category;
     let joke = req.query.joke;
-    let user = req.query.user;
     firebase.database().ref('categories/' + category).push({
         joke: joke,
         likes: 0,
-        submitted_by: user,
     });
     res.send("Joke submitted!");
 });

@@ -92,7 +92,14 @@
     };
     firebase.initializeApp(config);
 
-    var user = firebase.auth().currentUser;
+    // -- observer for signed in user
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            console.log("You're signed in!");
+        } else {
+            console.log("not logged in");
+        }
+    });
 
     function handleForm() {
         var catIndex = document.getElementById('category');
@@ -101,20 +108,20 @@
 
         //save to FireBase
         xhmr.onreadystatechange = function () {
-            if (xhmr.readyState === 4 && xhmr.status===200) {
+            if (xhmr.readyState === 4 && xhmr.status === 200) {
                 var joke = xhmr.responseText;
                 alert(joke);
             }
         };
 
-        if (user!=null) {
-            xhmr.open("GET", "http://localhost:8081/Submit?user="+user+"&category=" + category + "&joke=" + joke, true);
-            xhmr.send();
-        } else {
-            xhmr.open("GET", "http://localhost:8081/Submit?user=anon&category=" + category + "&joke=" + joke, true);
-            xhmr.send();
-            alert("Submitted as anon!");
-        }
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                xhmr.open("GET", "http://localhost:8081/Submit?&category=" + category + "&joke=" + joke, true);
+                xhmr.send();
+            } else {
+                alert("You're not signed in!")
+            }
+        });
     }
 
 
