@@ -61,9 +61,11 @@ app.get('/Jokes', async function (req, res) {
 app.get('/Submit', function (req, res) {
     let category = req.query.category;
     let joke = req.query.joke;
+    let user = req.query.user;
     firebase.database().ref('categories/' + category).push({
         joke: joke,
-        likes: 0
+        likes: 0,
+        submitted_by: user,
     });
     res.send("Joke submitted!");
 });
@@ -105,4 +107,8 @@ app.get('/Delete', function (req, res) {
             }
         })
     });
+});
+
+app.get('/Login', function (req, res) {
+    res.sendFile("signin.html", {root: __dirname});
 });

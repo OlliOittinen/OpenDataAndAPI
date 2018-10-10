@@ -92,13 +92,12 @@
     };
     firebase.initializeApp(config);
 
+    var user = firebase.auth().currentUser;
+
     function handleForm() {
         var catIndex = document.getElementById('category');
         var category = catIndex.options[catIndex.selectedIndex].value;
         var joke = document.getElementById('joke').value;
-        console.log(category);
-        JSON.stringify(joke);
-        console.log(joke);
 
         //save to FireBase
         xhmr.onreadystatechange = function () {
@@ -107,8 +106,15 @@
                 alert(joke);
             }
         };
-        xhmr.open("GET", "http://localhost:8081/Submit?category=" +category+"&joke="+joke , true);
-        xhmr.send();
+
+        if (user!=null) {
+            xhmr.open("GET", "http://localhost:8081/Submit?user="+user+"&category=" + category + "&joke=" + joke, true);
+            xhmr.send();
+        } else {
+            xhmr.open("GET", "http://localhost:8081/Submit?user=anon&category=" + category + "&joke=" + joke, true);
+            xhmr.send();
+            alert("Submitted as anon!");
+        }
     }
 
 
