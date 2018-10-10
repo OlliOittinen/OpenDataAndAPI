@@ -110,16 +110,16 @@
     firebase.initializeApp(config);
 
     let cat;
-    let json;
+    var json;
     const xhmr = new XMLHttpRequest();
 
     function catClick(category) {
         cat = category;
         if (category != null) {
             xhmr.onreadystatechange = function () {
-                if (xhmr.readyState === 4 && xhmr.status === 200) {
+                if (xhmr.readyState === 4 && xhmr.status===200) {
                     json = xhmr.responseText;
-                    console.log("response = " + json);
+                    console.log("response = "+json);
                     arrayToTable(json);
                 }
             };
@@ -144,16 +144,16 @@
             lielement.setAttribute("class", "list-group-item");
             var ielement = document.createElement("i");
             ielement.setAttribute("class", "glyphicon glyphicon-chevron-up");
-            ielement.onclick = function () {
-                vote(1, keys[i]);
+            ielement.onclick = function(){
+                vote(1,keys[i]);
             };
             var spanelement = document.createElement("span");
             spanelement.innerHTML = array[i].likes;
             spanelement.setAttribute("class", "label label-primary");
             var i2element = document.createElement("i");
             i2element.setAttribute("class", "glyphicon glyphicon-chevron-down");
-            i2element.onclick = function () {
-                vote(-1, keys[i]);
+            i2element.onclick = function(){
+                vote(-1,keys[i]);
             };
             var qelement = document.createElement("q");
             qelement.innerHTML = " " + array[i].joke;
@@ -169,12 +169,12 @@
     function vote(integer, jokeKey) {
 
         xhmr.onreadystatechange = function () {
-            if (xhmr.readyState === 4 && xhmr.status === 200) {
+            if (xhmr.readyState === 4 && xhmr.status===200) {
 
             }
-            xhmr.open("GET", "http://localhost:8081/Vote?jokeKey=" + jokeKey + "&integer=" + integer, true);
-            xhmr.send();
-        }
+        };
+        xhmr.open("GET", "http://localhost:8081/Vote?jokeKey=" + jokeKey + "&integer="+integer, true);
+        xhmr.send();
     }
 
 </script>
