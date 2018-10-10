@@ -80,13 +80,12 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Funny Jokes</a>
+            <a class="navbar-brand" href="#" onclick="clearPage()">Funny Jokes</a>
         </div>
         <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
+            <li class="active"><a href="#" onclick="clearPage()">Home</a></li>
             <li><a href="SubmitJoke">Submit a Joke</a></li>
             <li><a href="Login">Log in</a></li>
-            <li><a id="update"></a></li>
         </ul>
     </div>
     <div class="sidenav">
@@ -206,21 +205,11 @@
         }
     }
 
-    function tempAlert(msg, duration) {
-        var el = document.createElement("popup");
-        el.setAttribute("style", "color:white;");
-        el.innerHTML = msg;
-        setTimeout(function () {
-            el.parentNode.removeChild(el);
-        }, duration);
-        document.getElementById("update").appendChild(el);
-    }
 
     function vote(integer, jokeKey) {
         xhmr.onreadystatechange = function () {
             if (xhmr.readyState === 4 && xhmr.status === 200) {
-                var msg = "Updated value! Current value: " + xhmr.responseText;
-                tempAlert(msg, 2000);
+                catClick(cat);
             }
         };
 
@@ -235,10 +224,16 @@
         })
     }
 
+    function clearPage(){
+        document.getElementById("main").innerHTML = "Welcome to the Funny Jokes Homepage! Click a category on the left to find jokes, or submit your own at the top!";
+    }
+
     function deleteJoke(jokeKey) {
         xhmr.onreadystatechange = function () {
             if (xhmr.readyState === 4 && xhmr.status === 200) {
                 tempAlert(xhmr.responseText, 2000);
+                catClick(cat);
+
             }
         };
         firebase.auth().onAuthStateChanged(function (user) {
