@@ -72,7 +72,7 @@ app.get('/Vote', function (req, res) {
 
     let jokeKey = req.query.jokeKey;
     let integer = parseInt(req.query.integer);
-
+    var valueToSend = 0;
     var fbref = firebase.database().ref('/categories/');
     var currentVotes = 0;
 
@@ -82,11 +82,12 @@ app.get('/Vote', function (req, res) {
                 currentVotes = data.child("likes").val();
                 fbref = firebase.database().ref('/categories/' + snapshot.key + '/' + data.key);
                 var newValue = currentVotes + integer;
+                valueToSend = newValue;
                 fbref.update({
                     likes: newValue
                 });
+                res.send(""+valueToSend);
             }
         })
     });
-    res.send();
-})
+});
