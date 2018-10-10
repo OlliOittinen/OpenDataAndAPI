@@ -71,6 +71,8 @@
             opacity: 0.75;
             cursor: pointer;
         }
+
+        .remove
     </style>
 </head>
 <body>
@@ -143,25 +145,33 @@
             ulelement.setAttribute("class", "list-group");
             var lielement = document.createElement("li");
             lielement.setAttribute("class", "list-group-item");
-            var ielement = document.createElement("i");
-            ielement.setAttribute("class", "glyphicon glyphicon-chevron-up");
-            ielement.onclick = function () {
+            var upvote = document.createElement("i");
+            upvote.setAttribute("class", "glyphicon glyphicon-chevron-up");
+            upvote.onclick = function () {
                 vote(1, keys[i]);
             };
-            var spanelement = document.createElement("span");
-            spanelement.innerHTML = array[i].likes;
-            spanelement.setAttribute("class", "label label-primary");
-            var i2element = document.createElement("i");
-            i2element.setAttribute("class", "glyphicon glyphicon-chevron-down");
-            i2element.onclick = function () {
+            var numberOfLikes = document.createElement("span");
+            numberOfLikes.innerHTML = array[i].likes;
+            numberOfLikes.setAttribute("class", "label label-primary");
+            var downvote = document.createElement("i");
+            downvote.setAttribute("class", "glyphicon glyphicon-chevron-down");
+            downvote.onclick = function () {
                 vote(-1, keys[i]);
             };
-            var qelement = document.createElement("q");
-            qelement.innerHTML = " " + array[i].joke;
-            lielement.appendChild(ielement);
-            lielement.appendChild(spanelement);
-            lielement.appendChild(i2element);
-            lielement.appendChild(qelement);
+            var jokeGoesHere = document.createElement("q");
+            jokeGoesHere.innerHTML = " " + array[i].joke;
+            var remove = document.createElement("remove");
+            remove.setAttribute("class", "glyphicon glyphicon-remove");
+            remove.onclick = function () {
+              if (confirm("Are you sure you want to delete this joke?")) {
+                  deleteJoke(keys[i]);
+              }
+            };
+            lielement.appendChild(upvote);
+            lielement.appendChild(numberOfLikes);
+            lielement.appendChild(downvote);
+            lielement.appendChild(jokeGoesHere);
+            lielement.appendChild(remove);
             ulelement.appendChild(lielement);
             main.appendChild(ulelement);
         }
@@ -185,6 +195,17 @@
             }
         };
         xhmr.open("GET", "http://localhost:8081/Vote?jokeKey=" + jokeKey + "&integer=" + integer, true);
+        xhmr.send();
+    }
+
+    function deleteJoke(jokeKey) {
+        xhmr.onreadystatechange = function () {
+            if (xhmr.readyState === 4 && xhmr.status === 200) {
+                var msg = "Joke deleted :(";
+                tempAlert(msg, 2000);
+            }
+        };
+        xhmr.open("GET", "http://localhost:8081/Delete?jokeKey=" + jokeKey, true);
         xhmr.send();
     }
 

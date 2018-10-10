@@ -86,7 +86,22 @@ app.get('/Vote', function (req, res) {
                 fbref.update({
                     likes: newValue
                 });
-                res.send(""+valueToSend);
+                res.send("" + valueToSend);
+            }
+        })
+    });
+});
+
+app.get('/Delete', function (req, res) {
+    let jokeKey = req.query.jokeKey;
+    var fbref = firebase.database().ref('/categories/');
+
+    fbref.orderByKey().on("child_added", function (snapshot) {
+        snapshot.forEach(function (data) {
+            if (jokeKey === data.key) {
+                fbref = firebase.database().ref('/categories/' + snapshot.key);
+                fbref.child(jokeKey).remove();
+                res.send("Deleted!");
             }
         })
     });
