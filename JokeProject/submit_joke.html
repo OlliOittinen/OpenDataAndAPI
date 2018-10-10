@@ -80,6 +80,7 @@
 <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
 
 <script>
+    var xhmr = new XMLHttpRequest();
     // Initialize Firebase
     var config = {
         apiKey: "AIzaSyCYqbAvdsQ_tYh77TaxmL2dDUeNhMKQpgA",
@@ -98,18 +99,19 @@
         console.log(category);
         JSON.stringify(joke);
         console.log(joke);
+
         //save to FireBase
-        addJoke(category, joke);
+        xhmr.onreadystatechange = function () {
+            if (xhmr.readyState === 4 && xhmr.status===200) {
+                var joke = xhmr.responseText;
+                alert(joke);
+            }
+        };
+        xhmr.open("GET", "http://localhost:8081/Submit?category=" +category+"&joke="+joke , true);
+        xhmr.send();
     }
 
-    function addJoke(category, joke) {
-        firebase.database().ref('categories/' + category).push({
-            joke: joke,
-            likes: 0
-    })
-        ;
-        alert("Joke Submitted Successfully :)");
-    }
+
 </script>
 
 </body>
