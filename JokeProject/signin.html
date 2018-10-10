@@ -87,7 +87,7 @@
     firebase.initializeApp(config);
 
     var actionCodeSettings = {
-        url: 'http://localhost:8081/Login',
+        url: 'http://localhost:8081/',
         handleCodeInApp: true,
         iOS: {
             bundleId: 'com.example.ios'
@@ -104,7 +104,7 @@
         if (user) {
             console.log("You're signed in!");
         } else {
-            console.log("not logged in");
+            console.log("Not logged in!");
         }
     });
 
@@ -121,10 +121,26 @@
             .catch(function (error) {
                 console.log(error.code + error.message);
             });
-        //vie firebasee, kun ok,
-        firebase.auth().createUserWithEmailAndPassword(email, password);
     }
 
+        /* -- viimeistely tehdään home.html, ei täällä
+        if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
+            var logEmail = window.localStorage.getItem('emailForSignIn');
+            if (!logEmail) {
+                logEmail = window.prompt('Please provide your email for confirmation!');
+            }
+            firebase.auth().signInWithEmailLink(logEmail, window.location.href)
+                .then(function (result){
+                  window.localStorage.removeItem('emailForSignIn');
+                  console.log("after sign in with Email link");
+                  //firebase.auth().createUserWithEmailAndPassword(email, password);
+                })
+        }
+
+        //vie firebasee, kun ok,
+       // firebase.auth().createUserWithEmailAndPassword(email, password);
+    }
+*/
     function logInUser() {
         firebase.auth().signOut();
         var email = document.getElementById('logEmail').value;

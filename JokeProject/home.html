@@ -250,6 +250,20 @@
             }
         })
     }
+
+    //sposti-linkin jälkeen
+    if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
+        var logEmail = window.localStorage.getItem('emailForSignIn');
+        if (!logEmail) {
+            logEmail = window.prompt('Please provide your email for confirmation!');
+        }
+        firebase.auth().signInWithEmailLink(logEmail, window.location.href)
+            .then(function (result) {
+                var logPassword = window.prompt('Please retype your password: ')
+                window.localStorage.removeItem('emailForSignIn');
+                firebase.auth().createUserWithEmailAndPassword(logEmail, logPassword);
+            })
+    }
 </script>
 
 
