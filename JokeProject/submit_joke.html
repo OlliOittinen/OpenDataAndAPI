@@ -55,7 +55,10 @@
         <ul class="nav navbar-nav">
             <li class="active"><a href="/">Home</a></li>
             <li><a href="SubmitJoke">Submit a Joke</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
             <li><a href="Login">Log in</a></li>
+            <li><a href="#" onclick="logOut()">Log out <span class="glyphicon glyphicon-log-out"></span></a></li>
         </ul>
     </div>
 </nav>
@@ -124,6 +127,10 @@
                 alert("You're not signed in!")
             }
         });
+    }
+    function logOut(){
+        firebase.auth().signOut();
+        alert("You have logged out")
     }
 
 

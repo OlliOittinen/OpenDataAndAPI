@@ -15,7 +15,7 @@
             box-sizing: border-box;
         }
 
-        input[type=text], select, textarea {
+        input[type=email], input[type=password] {
             width: 100%;
             padding: 12px;
             border: 1px solid #ccc;
@@ -44,6 +44,9 @@
             background-color: #f2f2f2;
             padding: 20px;
         }
+        #signIn {
+            margin-bottom: 30px;
+        }
     </style>
 </head>
 <body>
@@ -55,7 +58,10 @@
         <ul class="nav navbar-nav">
             <li class="active"><a href="/">Home</a></li>
             <li><a href="SubmitJoke">Submit a Joke</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
             <li><a href="Login">Log in</a></li>
+            <li><a href="#" onclick="logOut()">Log out <span class="glyphicon glyphicon-log-out"></span></a></li>
         </ul>
     </div>
 </nav>
@@ -63,14 +69,17 @@
 <div class="form-group">
     <h2>Sign in</h2>
     <form id="signIn">
-        <label for="email">Sign up - </label>
+        <label for="email">Email</label>
         <input id="email" type="email" placeholder="sample@email.com" required>
+        <label for="password">Password</label>
         <input id="password" type="password" placeholder="supersecretpassword" required>
         <input type="button" value="Submit" onclick="signUpUser()">
     </form>
+    <h2>Log in</h2>
     <form id="login">
-        <label for="logEmail">Log in - </label>
+        <label for="logEmail">Email</label>
         <input id="logEmail" type="email" placeholder="sample@email.com" required>
+        <label for="logPassword">Password</label>
         <input id="logPassword" type="password" placeholder="supersecretpassword" required>
         <input type="button" value="Submit" onclick="logInUser()">
     </form>
@@ -149,7 +158,13 @@
         var password = document.getElementById('logPassword').value;
         firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
             console.log(error.code + error.message);
+            alert("Oops. Something went wrong..")
         })
+
+    }
+    function logOut(){
+        firebase.auth().signOut();
+        alert("You have logged out")
     }
 </script>
 </body>
