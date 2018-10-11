@@ -14,6 +14,12 @@
 
         a {
             padding-left: 5px;
+            text-decoration: none;
+            color: black;
+        }
+        a:hover {
+            text-decoration: none;
+            color: black;
         }
 
         .sidenav {
@@ -189,8 +195,8 @@
             downvote.onclick = function () {
                 vote(-1, keys[i]);
             };
-            var jokeGoesHere = document.createElement("q");
-            jokeGoesHere.innerHTML = " " + array[i].joke;
+            var jokeGoesHere = document.createElement("a");
+            jokeGoesHere.innerHTML = " " + array[i].joke + " ";
             var remove = document.createElement("remove");
             remove.setAttribute("class", "glyphicon glyphicon-remove");
             remove.onclick = function () {
