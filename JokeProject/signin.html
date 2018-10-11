@@ -67,7 +67,7 @@
 </nav>
 
 <div class="form-group">
-    <h2>Sign in</h2>
+    <h2>Sign up</h2>
     <form id="signIn">
         <label for="email">Email</label>
         <input id="email" type="email" placeholder="sample@email.com" required>
@@ -112,7 +112,7 @@
     // -- observer for signed in user
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
-            alert("Signed in!");
+            //alert("Signed in!");
             console.log("You're signed in!");
         } else {
             console.log("Not logged in!");
@@ -162,9 +162,13 @@
         })
 
     }
-    function logOut(){
-        firebase.auth().signOut();
-        alert("You have logged out")
+    function logOut() {
+        if (user) {
+            firebase.auth().signOut();
+            alert("You have logged out")
+        } else {
+            alert("You're not logged in in the first place xd");
+        }
     }
 </script>
 </body>
