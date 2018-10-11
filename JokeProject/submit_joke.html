@@ -96,6 +96,7 @@
     // -- observer for signed in user
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
+            alert("Signed in!")
             console.log("You're signed in!");
         } else {
             console.log("not logged in");

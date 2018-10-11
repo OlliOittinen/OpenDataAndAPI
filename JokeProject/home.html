@@ -117,13 +117,13 @@
     var user = firebase.auth().currentUser;
     /*user might be null if auth object hasn't finished initializing; is null if no user signed in*/
 
-    /*      -- serves as a template --
+    /*      -- serves as a template -- */
         firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
-
+                alert ("Signed in!")
             }
         })
-        */
+
 
     if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
         var emailForSignIn = window.localStorage.getItem('emailForSignIn');
@@ -186,7 +186,7 @@
             downvote.onclick = function () {
                 vote(-1, keys[i]);
             };
-            var jokeGoesHere = document.createElement("q");
+            var jokeGoesHere = document.createElement("a");
             jokeGoesHere.innerHTML = " " + array[i].joke;
             var remove = document.createElement("remove");
             remove.setAttribute("class", "glyphicon glyphicon-remove");
