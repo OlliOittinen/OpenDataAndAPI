@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        input[type=email], input[type=password] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            resize: vertical;
+        }
+
+        input[type=button] {
+            background-color: #af0096;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type=button]:hover {
+            background-color: #79006a;
+        }
+
+        .form-group {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+        #signIn {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Funny Jokes</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="SubmitJoke">Submit a Joke</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="Login">Log in</a></li>
+            <li><a href="#" onclick="logOut()">Log out <span class="glyphicon glyphicon-log-out"></span></a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="form-group">
+    <h2>Sign up</h2>
+    <form id="signIn">
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="sample@email.com" required>
+        <label for="password">Password</label>
+        <input id="password" type="password" placeholder="supersecretpassword" required>
+        <input type="button" value="Submit" onclick="signUpUser()">
+    </form>
+    <h2>Log in</h2>
+    <form id="login">
+        <label for="logEmail">Email</label>
+        <input id="logEmail" type="email" placeholder="sample@email.com" required>
+        <label for="logPassword">Password</label>
+        <input id="logPassword" type="password" placeholder="supersecretpassword" required>
+        <input type="button" value="Submit" onclick="logInUser()">
+    </form>
+</div>
+<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
+<script>
+    var config = {
+        apiKey: "AIzaSyCYqbAvdsQ_tYh77TaxmL2dDUeNhMKQpgA",
+        authDomain: "joke-api-578e4.firebaseapp.com",
+        databaseURL: "https://joke-api-578e4.firebaseio.com",
+        projectId: "joke-api-578e4",
+        storageBucket: "joke-api-578e4.appspot.com",
+        messagingSenderId: "1068760777389"
+    };
+    firebase.initializeApp(config);
+
+    var actionCodeSettings = {
+        url: 'http://localhost:8081/',
+        handleCodeInApp: true,
+        iOS: {
+            bundleId: 'com.example.ios'
+        },
+        android: {
+            packageName: 'com.example.android',
+            installApp: true,
+            minimumVersion: '12'
+        }
+    };
+
+    // -- observer for signed in user
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            //alert("Signed in!");
+            console.log("You're signed in!");
+        } else {
+            console.log("Not logged in!");
+        }
+    });
+
+    function signUpUser() {
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
+        console.log(email);
+        firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings)
+            .then(function () {
+                //store locally so don't need to ask again
+                window.localStorage.setItem('emailForSignIn', email);
+                alert("Sent email to: " + email + "! Please confirm your email address!");
+            })
+            .catch(function (error) {
+                console.log(error.code + error.message);
+            });
+    }
+
+        /* -- viimeistely tehdään home.html, ei täällä
+        if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
+            var logEmail = window.localStorage.getItem('emailForSignIn');
+            if (!logEmail) {
+                logEmail = window.prompt('Please provide your email for confirmation!');
+            }
+            firebase.auth().signInWithEmailLink(logEmail, window.location.href)
+                .then(function (result){
+                  window.localStorage.removeItem('emailForSignIn');
+                  console.log("after sign in with Email link");
+                  //firebase.auth().createUserWithEmailAndPassword(email, password);
+                })
+        }
+
+        //vie firebasee, kun ok,
+       // firebase.auth().createUserWithEmailAndPassword(email, password);
+    }
+*/
+    function logInUser() {
+        firebase.auth().signOut();
+        var email = document.getElementById('logEmail').value;
+        var password = document.getElementById('logPassword').value;
+        firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+            console.log(error.code + error.message);
+            alert("Oops. Something went wrong..")
+        })
+
+    }
+    function logOut() {
+        if (user) {
+            firebase.auth().signOut();
+            alert("You have logged out")
+        } else {
+            alert("You're not logged in in the first place xd");
+        }
+    }
+</script>
+</body>
+</html>

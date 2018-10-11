@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Funny Jokes</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font-family: "Roboto", sans-serif;
+        }
+
+        a {
+            padding-left: 5px;
+            text-decoration: none;
+            color: black;
+        }
+        a:hover {
+            text-decoration: none;
+            color: black;
+        }
+
+        .sidenav {
+            margin-top: 51px;
+            height: 100%;
+            width: 133px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #3c3f41;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+
+        .sidenav a {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            cursor: pointer;
+        }
+
+        .sidenav a:hover {
+            color: #f1f1f1;
+        }
+
+        .main {
+            margin-left: 133px; /* Same as the width of the sidenav */
+            margin-top: 60px;
+            font-size: 15px; /* Increased text to enable scrolling */
+            padding: 0px 10px;
+        }
+
+        @media screen and (max-height: 450px) {
+            .sidenav {
+                padding-top: 15px;
+            }
+
+            .sidenav a {
+                font-size: 18px;
+                cursor: pointer;
+            }
+        }
+
+        .glyphicon {
+            opacity: 1;
+            transition: opacity .25s ease-in-out;
+            -moz-transition: opacity .25s ease-in-out;
+            -webkit-transition: opacity .25s ease-in-out;
+        }
+
+        .glyphicon:hover {
+            opacity: 0.75;
+            cursor: pointer;
+        }
+
+        .remove
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#" onclick="clearPage()">Funny Jokes</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="#" onclick="clearPage()">Home</a></li>
+            <li><a href="SubmitJoke">Submit a Joke</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="Login">Log in</a></li>
+            <li><a href="#" onclick="logOut()">Log out <span class="glyphicon glyphicon-log-out"></span></a></li>
+        </ul>
+    </div>
+    <div class="sidenav">
+        <a onclick="catClick('Bar')">Bar</a>
+        <a onclick="catClick('Dad')">Dad</a>
+        <a onclick="catClick('Dark')">Dark</a>
+        <a onclick="catClick('NSFW')">NSFW</a>
+        <a onclick="catClick('Puns')">Puns</a>
+        <a onclick="catClick('Yo Momma')">Yo Momma</a>
+    </div>
+</nav>
+<div class="main" id="main">Welcome to the Funny Jokes Homepage! Click a category on the left to find jokes, or
+    submit your own at the top!
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
+<script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyCYqbAvdsQ_tYh77TaxmL2dDUeNhMKQpgA",
+        authDomain: "joke-api-578e4.firebaseapp.com",
+        databaseURL: "https://joke-api-578e4.firebaseio.com",
+        projectId: "joke-api-578e4",
+        storageBucket: "joke-api-578e4.appspot.com",
+        messagingSenderId: "1068760777389"
+    };
+    firebase.initializeApp(config);
+
+    var user = firebase.auth().currentUser;
+    /*user might be null if auth object hasn't finished initializing; is null if no user signed in*/
+
+    /*      -- serves as a template -- */
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                //alert ("Signed in!")
+            }
+        });
+
+
+    if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
+        var emailForSignIn = window.localStorage.getItem('emailForSignIn');
+        if (!emailForSignIn) {
+            emailForSignIn = window.prompt('Please provide your email for confirmation');
+        }
+        firebase.auth().signInWithEmailLink(emailForSignIn, window.location.href)
+            .then(function (result) {
+                window.localStorage.removeItem('emailForSignIn');
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
+
+
+    let cat;
+    var json;
+    const xhmr = new XMLHttpRequest();
+
+    function catClick(category) {
+        cat = category;
+        if (category != null) {
+            xhmr.onreadystatechange = function () {
+                if (xhmr.readyState === 4 && xhmr.status === 200) {
+                    json = xhmr.responseText;
+                    console.log("response = " + json);
+                    arrayToTable(json);
+                }
+            };
+            xhmr.open("GET", "http://localhost:8081/Jokes?category=" + category, true);
+            xhmr.send();
+        }
+    }
+
+    function arrayToTable(array) {
+        var main = document.getElementById("main");
+        main.innerHTML = "";
+        let string;
+        let keys = [];
+        array = JSON.parse(array);
+
+        for (let i = 0; i < array.length; i++) {
+            string = array[i].key;
+            keys[i] = array[i].key;
+            var ulelement = document.createElement("ul");
+            ulelement.setAttribute("class", "list-group");
+            var lielement = document.createElement("li");
+            lielement.setAttribute("class", "list-group-item");
+            var upvote = document.createElement("i");
+            upvote.setAttribute("class", "glyphicon glyphicon-chevron-up");
+            upvote.onclick = function () {
+                vote(1, keys[i]);
+            };
+            var numberOfLikes = document.createElement("span");
+            numberOfLikes.innerHTML = array[i].likes;
+            numberOfLikes.setAttribute("class", "label label-primary");
+            var downvote = document.createElement("i");
+            downvote.setAttribute("class", "glyphicon glyphicon-chevron-down");
+            downvote.onclick = function () {
+                vote(-1, keys[i]);
+            };
+            var jokeGoesHere = document.createElement("a");
+            jokeGoesHere.innerHTML = " " + array[i].joke + " ";
+            var remove = document.createElement("remove");
+            remove.setAttribute("class", "glyphicon glyphicon-remove");
+            remove.onclick = function () {
+                if (confirm("Are you sure you want to delete this joke?")) {
+                    deleteJoke(keys[i]);
+                }
+            };
+            lielement.appendChild(upvote);
+            lielement.appendChild(numberOfLikes);
+            lielement.appendChild(downvote);
+            lielement.appendChild(jokeGoesHere);
+            lielement.appendChild(remove);
+            ulelement.appendChild(lielement);
+            main.appendChild(ulelement);
+        }
+    }
+
+
+    function vote(integer, jokeKey) {
+        xhmr.onreadystatechange = function () {
+            if (xhmr.readyState === 4 && xhmr.status === 200) {
+                catClick(cat);
+            }
+        };
+
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                xhmr.open("GET", "http://localhost:8081/Vote?jokeKey=" + jokeKey + "&integer=" + integer, true);
+                xhmr.send();
+            }
+            else {
+                alert("You need to be logged in to vote!");
+            }
+        })
+    }
+
+    function clearPage(){
+        document.getElementById("main").innerHTML = "Welcome to the Funny Jokes Homepage! Click a category on the left to find jokes, or submit your own at the top!";
+    }
+
+    function deleteJoke(jokeKey) {
+        xhmr.onreadystatechange = function () {
+            if (xhmr.readyState === 4 && xhmr.status === 200) {
+                tempAlert(xhmr.responseText, 2000);
+                catClick(cat);
+
+            }
+        };
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                xhmr.open("GET", "http://localhost:8081/Delete?jokeKey=" + jokeKey, true);
+                xhmr.send();
+                catClick(cat);
+            } else {
+                alert("You need to be logged in to delete jokes!");
+            }
+        })
+    }
+
+    //sposti-linkin jälkeen
+    if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
+        var logEmail = window.localStorage.getItem('emailForSignIn');
+        if (!logEmail) {
+            logEmail = window.prompt('Please provide your email for confirmation!');
+        }
+        firebase.auth().signInWithEmailLink(logEmail, window.location.href)
+            .then(function (result) {
+                var logPassword = window.prompt('Please retype your password: ')
+                window.localStorage.removeItem('emailForSignIn');
+                firebase.auth().createUserWithEmailAndPassword(logEmail, logPassword);
+            })
+    }
+    function logOut() {
+        if (user) {
+            firebase.auth().signOut();
+            alert("You have logged out")
+        } else {
+            alert("You're not logged in in the first place xd");
+        }
+    }
+</script>
+
+
+</body>
+</html>
